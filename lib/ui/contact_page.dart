@@ -82,18 +82,15 @@ class _ContactPageState extends State<ContactPage> {
                   });
                 },
                 child: Container(
+                  width: 140,
                   height: 140,
                   decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.white54,
-                      width: 5
-                    ),
-                    borderRadius: BorderRadius.circular(150),
-                    // shape: BoxShape.circle,
+                    shape: BoxShape.circle,
                     image: DecorationImage(
                       image: _editContact!.img != null ?
                       FileImage(File(_editContact!.img as String)) : 
-                      const AssetImage("images/avatar-5.png") as ImageProvider
+                      const AssetImage("images/avatar-5.png") as ImageProvider,
+                      fit: BoxFit.fitWidth
                     )
                   ),
                 ),

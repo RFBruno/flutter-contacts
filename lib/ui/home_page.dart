@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+enum OrderOptions { orderaz, orderza }
+
 class HomePage extends StatefulWidget {
   const HomePage({ Key? key }) : super(key: key);
 
@@ -44,6 +46,21 @@ class _HomePageState extends State<HomePage> {
         title: const Text('Contatos'),
         backgroundColor: Colors.red,
         centerTitle: true,
+        actions: [
+          PopupMenuButton<OrderOptions>(
+            itemBuilder: (context) => <PopupMenuEntry<OrderOptions>>[
+              const PopupMenuItem<OrderOptions>(
+                child: Text('Ordenar de A-Z'),
+                value: OrderOptions.orderaz,
+              ),
+              const PopupMenuItem<OrderOptions>(
+                child: Text('Ordenar de Z-A'),
+                value: OrderOptions.orderza,
+              ),
+            ],
+            onSelected: _orderList,
+          ),
+        ],
       ),
 
       backgroundColor: Colors.white,
@@ -80,7 +97,9 @@ class _HomePageState extends State<HomePage> {
                   image: DecorationImage(
                     image: contacts[index].img != null ?
                       FileImage(File(contacts[index].img as String)) : 
-                      const AssetImage("images/avatar-5.png") as ImageProvider
+                      const AssetImage("images/avatar-5.png") as ImageProvider,
+                      fit: BoxFit.fitWidth
+
                       
                   )
                 ),
@@ -216,6 +235,24 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         contacts = value;
       })
+    });
+  }
+
+  void _orderList(OrderOptions result){
+    switch(result) {
+      case OrderOptions.orderaz:
+        contacts.sort((a,b) {
+          return a.name.toLowerCase().compareTo(b.name.toLowerCase());
+        });
+        break;
+      case OrderOptions.orderza:
+      contacts.sort((a,b) {
+          return b.name.toLowerCase().compareTo(a.name.toLowerCase());
+        });
+        break;
+    }
+    setState(() {
+      
     });
   }
 
